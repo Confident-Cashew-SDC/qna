@@ -1,0 +1,31 @@
+{
+  "name": "qna",
+  "version": "1.0.0",
+  "description": "qna sdc",
+  "main": "./server/index.js",
+  "scripts": {
+    "start:dev": "nodemon ./server",
+    "test": "jest",
+    "k6test": "k6 run ./k6/script.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Confident-Cashew-SDC/qna.git"
+  },
+  "author": "Jae Park Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Confident-Cashew-SDC/qna/issues"
+  },
+  "homepage": "https://github.com/Confident-Cashew-SDC/qna#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^11.0.0",
+    "express": "^4.17.2",
+    "express-promise-router": "^4.1.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.1",
+    "pg-promise": "^10.11.1"
+  }
+}
