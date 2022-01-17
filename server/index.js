@@ -18,8 +18,11 @@ app.post('/qa/questions', controller.postQuestions)
 app.post('/qa/questions/:question_id/answers', controller.postAnswers)
 //can include markquestionashelpful, reportquestion, markanswerashelpful apis
 // console.log(process.env.PORT)
-app.listen(process.env.PORT, () => {
-  console.log(`QnA server listening at at http://localhost:${process.env.PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(process.env.PORT, () => {
+    console.log(`QnA server listening at at http://localhost:${process.env.PORT}`)
+  })
+}
 
+module.exports.app = app
 // module.exports.app = app
