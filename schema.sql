@@ -58,7 +58,10 @@ CREATE INDEX answersPhotosIdIndex ON photos(answers_id);
 -- COPY photos(id, answers_id, url) FROM '/Users/jlee72/Downloads/answers_photos.csv' DELIMITER ',' CSV HEADER;
 -- COPY answers(id, questions_id, body, date_written, answerer_name, answerer_email, reported, helpful) FROM '/Users/jlee72/Downloads/answers.csv' DELIMITER ',' CSV HEADER;
 -- • alter table questions ALTER COLUMN date_written SET DATA TYPE timestamp with time zone USING to_timestamp(date_written/1000);
--- alter talbe alter column set default now()
+-- alter table alter column set default now()???
+-- SELECT setval(pg_get_serial_sequence('questions', 'id'), coalesce(max(id), 0)+1 , false) FROM questions;
+-- SELECT setval(pg_get_serial_sequence('answers', 'id'), coalesce(max(id), 0)+1 , false) FROM answers;
+-- SELECT setval(pg_get_serial_sequence('questions', 'id'), coalesce(max(id), 0)+1 , false) FROM questions;
 
 -- SELECT * from questions limit 10;
 -- for checking amount of questions
