@@ -112,7 +112,7 @@ module.exports = {
           INSERT INTO public.answers(body, date_written, answerer_name, answerer_email, questions_id)
           VALUES ('${body}', NOW(), '${name}', '${email}', '${question_id}')
           RETURNING id AS answer_id
-        ) INSERT INTO photos (answers_id, url) SELECT answer_id, '${photos}' FROM t
+        ) INSERT INTO photos (answers_id, url) SELECT answer_id, x FROM t, unnest(ARRAY${photos}) x
         ;`
       } else {
         var text =`INSERT INTO public.answers(body, date_written, answerer_name, answerer_email, questions_id)
