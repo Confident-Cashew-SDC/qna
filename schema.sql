@@ -26,7 +26,8 @@ CREATE TABLE answers (
  helpful INTEGER DEFAULT 0,
  answerer_email TEXT,
  reported BOOLEAN DEFAULT 'false',
- questions_id INTEGER FOREIGN KEY references questions(id)
+ questions_id INTEGER,
+ FOREIGN KEY (questions_id) references questions(id)
 );
 -- might be a good idea to check for if email has @ in it
 
@@ -36,7 +37,8 @@ ALTER TABLE answers ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
 CREATE TABLE photos (
  id BIGSERIAL,
  url TEXT,
- answers_id INTEGER FOREIGN KEY references answers(id)
+ answers_id INTEGER,
+ FOREIGN KEY (answers_id) references answers(id)
 );
 -- might be a good idea to check for if url has .com or w.e the url should have
 ALTER TABLE photos ADD CONSTRAINT photos_pkey PRIMARY KEY (id);
@@ -49,6 +51,9 @@ CREATE INDEX questionsProductIdIndex ON questions(product_id);
 CREATE INDEX answersQuestionIdIndex ON answers(questions_id);
 CREATE INDEX answersPhotosIdIndex ON photos(answers_id);
 
+-- needtostillrun
+CREATE INDEX questionsDateIndex ON questions(date_written);
+CREATE INDEX answersDateIndex ON answers(date_written);
 -- to Run file
 -- psql postgres
 -- \i documents/week8/schema.sql

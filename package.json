@@ -4,7 +4,7 @@
   "description": "qna sdc",
   "main": "./server/index.js",
   "scripts": {
-    "start:dev": "nodemon ./server",
+    "start:dev": "USER=jlee72 HOST=localhost nodemon ./server" ,
     "test": "NODE_ENV=test jest --forceExit  --watchAll",
     "k6test": "k6 run ./k6/script.js"
   },
@@ -24,6 +24,7 @@
     "express": "^4.17.2",
     "express-promise-router": "^4.1.1",
     "morgan": "^1.10.0",
+    "newrelic": "^8.7.0",
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
     "pg-promise": "^10.11.1"

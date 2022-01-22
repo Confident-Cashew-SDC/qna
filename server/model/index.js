@@ -4,12 +4,9 @@ module.exports = {
   getQuestionsDB: async (product_id, page, count) => {
     try{
       var total = page*count
-    // var client = await db.client()
-    // await client.query()
-    // client.release()
-    // console.log(product_id)
+
       var text = `SELECT json_build_object(
-        'product_id', product_id,
+        'product_id', ${product_id},
         'results', json_agg(
           json_build_object(
             'question_id', questions.id,
@@ -40,14 +37,19 @@ module.exports = {
             ) AS answersObj
             )
           )
-
         )
-      ) as results FROM (SELECT * FROM questions WHERE questions.product_id = ${product_id} ORDER BY questions.date_written DESC LIMIT ${total}) AS questions GROUP BY questions.product_id;
+      ) as results FROM (SELECT * FROM questions WHERE product_id = ${product_id} ORDER BY date_written DESC LIMIT ${total}) AS questions;
       `
+      //took out - ORDER BY questions.date_written DESC (originally went inbetween questions_id and LIMIT)
       var query = await db.query(text)
+      // console.log('query', query)
+      // var results = {
+      //   product_id: product_id,
+      //   results: query.rows[0]
+      // }
       return query.rows[0]
       // console.log('query', query)
-      console.log('query.rows', query.rows)
+      // console.log('query.rows', query.rows)
     } catch (err) {
       console.log('db err:', err)
       return err
@@ -59,6 +61,7 @@ module.exports = {
     // await client.query()
     // client.release()
       var total = page*count
+      // console.log(questions_id)
     // console.log(product_id)
       var text = `SELECT json_build_object(
         'question', ${questions_id},
@@ -82,13 +85,14 @@ module.exports = {
             ) AS photos FROM photos WHERE photos.answers_id = answers.id) AS photosArr
         )
               )
-    ) AS answers FROM (SELECT * FROM answers WHERE answers.questions_id = ${questions_id} ORDER BY answers.date_written DESC LIMIT ${total}) AS answers
+    ) AS answers FROM (SELECT * FROM answers WHERE questions_id = ${questions_id} ORDER BY date_written DESC LIMIT ${total}) AS answers
         ) AS answersObj
         )
       ) AS results;`
+      //took out - ORDER BY answers.date_written DESC (originally went inbetween questions_id and LIMIT)
       var query = await db.query(text)
-      console.log('query', query)
-      console.log('query.rows', query.rows)
+      // console.log('query', query)
+      // console.log('query.rows', query.rows)
       return query.rows[0]
     } catch (err) {
       console.log('db err:', err)

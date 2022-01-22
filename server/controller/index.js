@@ -6,13 +6,12 @@ const model = require('./../model')
 module.exports = {
   getQuestions: async (req, res)=> {
     try{
-      // console.log(req.query.)
+
       var productID = req.query.product_id
-      // console.log(productID)
-      var page = req.query.page ? req.query.page : 1 ;
-      var count = req.query.count ? req.query.count : 5;
+
+      // var page = req.query.page ? req.query.page : 1 ;
+      // var count = req.query.count ? req.query.count : 5;
       var dbResponse = await model.getQuestionsDB(productID, page, count)
-      // console.log('dbResponse', dbResponse)
       res.json(dbResponse.results)
     } catch (err) {
       console.log('controller err', err)
@@ -46,7 +45,7 @@ module.exports = {
 
       var dbResponse = await model.postQuestionDB(productID, body, name, email)
       // console.log('dbResponse', dbResponse)
-      if (dbResponseQ>0) {
+      if (dbResponse>0) {
         res.status(201).json('Created')
       } else {
         res.json(dbResponse)
