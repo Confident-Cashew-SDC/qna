@@ -4,7 +4,7 @@
   "description": "qna sdc",
   "main": "./server/index.js",
   "scripts": {
-    "start:dev": "USER=jlee72 HOST=localhost nodemon ./server" ,
+    "start:dev": "USER=jlee72 HOST=localhost nodemon ./server",
     "test": "NODE_ENV=test jest --forceExit  --watchAll",
     "k6test": "k6 run ./k6/script.js"
   },

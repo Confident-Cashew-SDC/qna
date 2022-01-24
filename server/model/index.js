@@ -1,13 +1,84 @@
-const db = require('./../db');
+const db = require('./../db').db;
 
 module.exports = {
-  getQuestionsDB: async (product_id, page, count) => {
-    try{
+  getQuestionsDB: (product_id, page, count, callback) => {
+
       var total = page*count
 
-      var text = `SELECT json_build_object(
-        'product_id', ${product_id},
-        'results', json_agg(
+      // var text = `SELECT json_build_object(
+      //   'product_id', ${product_id},
+      //   'results', json_agg(
+      //     json_build_object(
+      //       'question_id', questions.id,
+      //       'question_body', questions.body,
+      //       'question_date', questions.date_written,
+      //       'asker_name', questions.asker_name,
+      //       'question_helpfulness', questions.helpful,
+      //       'reported', questions.reported,
+      //       'answers', (SELECT coalesce(answers, '{}'::json)
+      //       FROM (
+			// 	SELECT json_object_agg(
+      //         answers.id, json_build_object(
+      //           'id', answers.id,
+      //           'body', answers.body,
+      //           'date', answers.date_written,
+      //           'answerer_name', answers.answerer_name,
+      //           'helpfulness', answers.helpful,
+      //           'photos', (SELECT coalesce(photos, '[]'::json)
+      //           FROM (SELECT json_agg(
+      //             json_build_object(
+      //               'id', photos.id,
+      //               'url', photos.url
+      //             )
+      //           ) AS photos FROM photos WHERE photos.answers_id = answers.id ) AS photosArr
+			// 			)
+      //         		)
+			// 	) AS answers FROM answers WHERE answers.questions_id = questions.id
+      //       ) AS answersObj
+      //       )
+      //     )
+      //   )
+      // ) as results FROM (SELECT * FROM questions WHERE product_id = ${product_id} LIMIT ${total}) AS questions;
+      // `
+      //took out - ORDER BY questions.date_written DESC (originally went inbetween questions_id and LIMIT)
+      /////
+      // db.query(`SELECT json_build_object(
+      //   'product_id', ${product_id},
+      //   'results', json_agg(
+      //     json_build_object(
+      //       'question_id', questions.id,
+      //       'question_body', questions.body,
+      //       'question_date', questions.date_written,
+      //       'asker_name', questions.asker_name,
+      //       'question_helpfulness', questions.helpful,
+      //       'reported', questions.reported,
+      //       'answers', (SELECT coalesce(answers, '{}'::json)
+      //       FROM (
+			// 	SELECT json_object_agg(
+      //         answers.id, json_build_object(
+      //           'id', answers.id,
+      //           'body', answers.body,
+      //           'date', answers.date_written,
+      //           'answerer_name', answers.answerer_name,
+      //           'helpfulness', answers.helpful,
+      //           'photos', (SELECT coalesce(photos, '[]'::json)
+      //           FROM (SELECT json_agg(
+      //             json_build_object(
+      //               'id', photos.id,
+      //               'url', photos.url
+      //             )
+      //           ) AS photos FROM photos WHERE photos.answers_id = answers.id ) AS photosArr
+			// 			)
+      //         		)
+			// 	) AS answers FROM answers WHERE answers.questions_id = questions.id
+      //       ) AS answersObj
+      //       )
+      //     )
+      //   )
+      // ) as results FROM (SELECT * FROM questions WHERE product_id = ${product_id} LIMIT ${total}) AS questions;
+      // `)
+      /////
+      db.query(`SELECT json_agg(
           json_build_object(
             'question_id', questions.id,
             'question_body', questions.body,
@@ -37,23 +108,29 @@ module.exports = {
             ) AS answersObj
             )
           )
-        )
-      ) as results FROM (SELECT * FROM questions WHERE product_id = ${product_id} ORDER BY date_written DESC LIMIT ${total}) AS questions;
-      `
-      //took out - ORDER BY questions.date_written DESC (originally went inbetween questions_id and LIMIT)
-      var query = await db.query(text)
-      // console.log('query', query)
-      // var results = {
-      //   product_id: product_id,
-      //   results: query.rows[0]
-      // }
-      return query.rows[0]
-      // console.log('query', query)
-      // console.log('query.rows', query.rows)
-    } catch (err) {
-      console.log('db err:', err)
-      return err
-    }
+        ) as results FROM (SELECT * FROM questions WHERE product_id = ${product_id} LIMIT ${total}) AS questions;
+      `)
+        .then((result)=>{
+          var final = {
+            product_id: product_id,
+            results: result[0].results
+          }
+          // console.log(result[0].results)
+          callback(null, final)
+        })
+        .catch((err)=>{
+          console.log(err)
+          callback(err, null)
+        })
+        // .then((result)=>{
+        //   callback(result.rows[0])
+        // })
+        // .catch((err)=>{
+        //   console.log(err)
+        //   callback(err)
+        // })
+
+
   },
   getAnswersDB: async (questions_id, page, count) => {
     try{
@@ -99,15 +176,18 @@ module.exports = {
       return err
     }
   },
-  postQuestionDB: async (product_id, body, name, email) => {
-    try {
+  postQuestionDB: (product_id, body, name, email) => {
+
       var text = `INSERT INTO questions (product_id, body, asker_name, asker_email, date_written) VALUES (${product_id}, '${body}', '${name}', '${email}', NOW());`
-      var query = await db.query(text)
-      return query.rowCount
-    } catch (err) {
-      console.log('db err:', err)
-      return err
-    }
+      db.query(text)
+        .then((result)=>{
+          query.rowCount
+        })
+        .catch((err)=>{
+          console.log('db err:', err)
+          return err
+        })
+
   },
   postAnswerDB: async (question_id, body, name, email, photos) => {
     try {

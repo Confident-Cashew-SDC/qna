@@ -9,7 +9,7 @@ export let options = {
 };
 
 export default function () {
-  var randomID = Math.floor(Math.random() * ( ));
+  var randomID = Math.floor(Math.random() * (1000011));
   var params = {
     product_id: randomID,
     page: 1,

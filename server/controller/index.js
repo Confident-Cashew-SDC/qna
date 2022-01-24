@@ -4,18 +4,18 @@ const model = require('./../model')
 
 
 module.exports = {
-  getQuestions: async (req, res)=> {
-    try{
-
+  getQuestions: (req, res)=> {
       var productID = req.query.product_id
-
-      // var page = req.query.page ? req.query.page : 1 ;
-      // var count = req.query.count ? req.query.count : 5;
-      var dbResponse = await model.getQuestionsDB(productID, page, count)
-      res.json(dbResponse.results)
-    } catch (err) {
-      console.log('controller err', err)
-    }
+      var page = req.query.page ? req.query.page : 1 ;
+      var count = req.query.count ? req.query.count : 5;
+      model.getQuestionsDB(productID, page, count, (err, results)=>{
+        if (err) {
+          console.log('err', err)
+          res.sendStatus(500)
+        } else {
+          res.json(results)
+        }
+      })
   },
   getAnswers: async (req, res)=> {
     try{
@@ -32,8 +32,8 @@ module.exports = {
       console.log('controller err', err)
     }
   },
-  postQuestions: async(req, res)=> {
-    try{
+  postQuestions: (req, res)=> {
+
       // console.log(req.query)
       // console.log('param', req.params)
       // console.log(req.body)
@@ -43,17 +43,13 @@ module.exports = {
       var email = req.body.email
       // console.log(productID)
 
-      var dbResponse = await model.postQuestionDB(productID, body, name, email)
+      var dbResponse = model.postQuestionDB(productID, body, name, email)
       // console.log('dbResponse', dbResponse)
       if (dbResponse>0) {
         res.status(201).json('Created')
       } else {
         res.json(dbResponse)
       }
-    } catch (err) {
-      console.log('controller err', err)
-      res.json(err)
-    }
   },
   postAnswers: async(req, res)=> {
     try{
