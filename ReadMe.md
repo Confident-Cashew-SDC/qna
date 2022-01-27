@@ -41,8 +41,8 @@ POST /qa/questions/:question_id/answers - Adds an answer for the given question
 
 ## Contact
 * Jae Park Lee: [https://www.linkedin.com/in/jaeparklee/](https://www.linkedin.com/in/jaeparklee/)
-* Project Link: [https://github.com/Confident-Cashew-SDC/qna](https://github.com/Confident-Cashew-SDC/qna/blob/main)
+* Project Link: [https://github.com/Confident-Cashew-SDC/qna](https://github.com/Confident-Cashew-SDC/qna)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[system_arch]: system_arch2.png![system_arch2]
+[system_arch]: https://github.com/Confident-Cashew-SDC/qna/blob/main/system_arch2.png
