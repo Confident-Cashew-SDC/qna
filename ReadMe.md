@@ -41,7 +41,7 @@ POST /qa/questions/:question_id/answers - Adds an answer for the given question
 
 ## Contact
 * Jae Park Lee: [https://www.linkedin.com/in/jaeparklee/](https://www.linkedin.com/in/jaeparklee/)
-* Project Link: [https://github.com/Confident-Cashew-SDC/qna](https://github.com/Confident-Cashew-SDC/qna)
+* Project Link: [https://github.com/Confident-Cashew-SDC/qna](https://github.com/Confident-Cashew-SDC/qna/blob/main)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
