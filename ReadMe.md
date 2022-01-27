@@ -40,7 +40,8 @@ POST /qa/questions/:question_id/answers - Adds an answer for the given question
 ![System Architecture][system_arch]
 
 ## Contact
-* Jae Park Lee https://www.linkedin.com/in/jaeparklee/
+* Jae Park Lee: [https://www.linkedin.com/in/jaeparklee/](https://www.linkedin.com/in/jaeparklee/)
+* Project Link: [https://github.com/Confident-Cashew-SDC/qna](https://github.com/Confident-Cashew-SDC/qna)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
